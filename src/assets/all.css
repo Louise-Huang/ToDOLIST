@@ -550,4 +550,40 @@ nav ul a span {
 .log-out-icon {
   font-size: 20px;
 }
+
+.notFound {
+  margin: 0 auto;
+}
+
+.not-found-img {
+  width: 500px;
+  display: block;
+  margin: auto;
+}
+
+@media (max-width: 576px) {
+  .not-found-img {
+    width: 65%;
+  }
+}
+
+.homeButton a {
+  display: block;
+  width: 128px;
+  height: 48px;
+  line-height: 48px;
+  border: none;
+  border-radius: 10px;
+  background: #333333;
+  color: #fff;
+  -ms-flex-item-align: center;
+  -ms-grid-row-align: center;
+  align-self: center;
+  margin: 24px auto;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1rem;
+}
 /*# sourceMappingURL=all.css.map */
