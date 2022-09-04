@@ -547,6 +547,20 @@ nav ul a span {
   cursor: pointer;
 }
 
+.todoList_list .todoList_no-items {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-weight: 700;
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 15px;
+  line-height: 20.27px;
+  margin-bottom: 17px;
+}
+
 .log-out-icon {
   font-size: 20px;
 }
