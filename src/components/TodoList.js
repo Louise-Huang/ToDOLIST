@@ -1,11 +1,12 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../Context'
 import InputBox from './InputBox'
 import TodoItem from './TodoItem'
 
 function TodoList () {
+  let navigate = useNavigate()
   const { token } = useAuth()
   const [inputValue, setInputValue] = useState('')
   const [tabState, setTabState] = useState([
@@ -111,6 +112,22 @@ function TodoList () {
     )
   }
 
+  const logout = () => {
+    const url = `https://todoo.5xcamp.us/users/sign_out`
+    axios.delete(url, {
+      headers: {
+        'Authorization': token
+      }
+    })
+    .then(res => {
+      console.log('logout', res.data)
+      navigate('/')
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
   useEffect(() => {
     getTodoList()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -122,7 +139,7 @@ function TodoList () {
         <nav>
           <h1><Link to="/">ONLINE TODO LIST</Link></h1>
           <ul>
-            <li><Link to="/" className="log-out-icon"><i className="fas fa-sign-out-alt"></i></Link></li>
+            <li><button className="log-out-icon" onClick={logout}><i className="fas fa-sign-out-alt"></i></button></li>
           </ul>
         </nav>
         <div className="container todoListPage vhContainer">

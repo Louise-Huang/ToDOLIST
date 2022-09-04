@@ -563,6 +563,12 @@ nav ul a span {
 
 .log-out-icon {
   font-size: 20px;
+  border: none;
+  background-color: initial;
+}
+
+.log-out-icon:hover {
+  cursor: pointer;
 }
 
 .notFound {
