@@ -39,8 +39,8 @@ function Login () {
       <div id="loginPage" className="bg-yellow">
         <div className="container loginPage vhContainer ">
           <div className="side">
-            <Link to="/"><img className="logoImg" src="https://upload.cc/i1/2022/03/23/rhefZ3.png" alt=""/></Link>
-            <img className="d-m-n" src="https://upload.cc/i1/2022/03/23/tj3Bdk.png" alt="workImg"/>
+            <Link to="/"><img className="logoImg" src={require('../assets/todo-logo2.png')} alt=""/></Link>
+            <img className="d-m-n" src={require('../assets/todo-logo.png')} alt="workImg"/>
           </div>
           <div>
             <form className="formControls" onSubmit={handleSubmit(submit)}>
