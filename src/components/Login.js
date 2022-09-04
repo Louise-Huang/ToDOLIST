@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useForm } from 'react-hook-form'
+import { useAuth } from '../Context'
 import axios from "axios"
 
 function Login () {
+  let navigate = useNavigate()
+  const { setToken } = useAuth()
   const { register, handleSubmit, formState: { errors } } = useForm()
   const [loginError, setLoginError] = useState('')
   const submit = data => {
@@ -14,13 +17,14 @@ function Login () {
     }
     axios.post(url, obj, {
       headers: {
-        "Content-Type": "application/json" ,
+        "Content-Type": "application/json",
         "accept": "application/json"
       }
     })
     .then(res => {
       console.log('res', res)
-
+      setToken(res.headers.authorization)
+      navigate('/todo')
     })
     .catch(err => {
       console.log(err)
