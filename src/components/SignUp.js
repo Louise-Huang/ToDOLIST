@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { Link, useNavigate  } from "react-router-dom"
 import { useForm } from 'react-hook-form'
 import axios from "axios"
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+const $swal = withReactContent(Swal)
 
 function SignUp () {
   let navigate = useNavigate()
@@ -21,6 +24,15 @@ function SignUp () {
     })
     .then(res => {
       setSignUpError('')
+      $swal.fire({
+        icon: 'success',
+        title: 'Congratulations!',
+        html: `Your registration is successful!<br>Please log in again.`
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate('/')
+        }
+      })
     })
     .catch(err => {
       console.log(err.response.data.error)

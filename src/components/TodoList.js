@@ -4,6 +4,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../Context'
 import InputBox from './InputBox'
 import TodoItem from './TodoItem'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+const $swal = withReactContent(Swal)
 
 function TodoList () {
   let navigate = useNavigate()
@@ -120,8 +123,14 @@ function TodoList () {
       }
     })
     .then(res => {
-      console.log('logout', res.data)
-      navigate('/')
+      $swal.fire({
+        icon: 'success',
+        title: 'Logout succeeded!',
+        showConfirmButton: false,
+        timer: 1500
+      }).then(() => {
+        navigate('/')
+      })
     })
     .catch(err => {
       console.log(err)
