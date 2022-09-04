@@ -545,15 +545,15 @@ nav ul a span {
   }
 }
 
-// .todoList_item button {
-//   border: none;
-//   background-color: initial;
-//   display: none;
-//   &:hover {
-//     cursor: pointer;
-//     display: block;
-//   }
-// }
+.todoList_list .todoList_no-items {
+  display: flex;
+  justify-content: center;
+  font-weight: 700;
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 15px;
+  line-height: 20.27px;
+  margin-bottom: 17px;
+}
 
 .log-out-icon {
   font-size: 20px;
@@ -567,7 +567,6 @@ nav ul a span {
   width: 500px;
   display: block;
   margin: auto;
-  // background: url('../assets/404.png') 0 0 no-repeat;
 }
 
 @media (max-width: 576px) {

@@ -1,9 +1,12 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import InputBox from './InputBox';
-import TodoItem from './TodoItem';
+import axios from 'axios'
+import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { useAuth } from '../Context'
+import InputBox from './InputBox'
+import TodoItem from './TodoItem'
 
 function TodoList () {
+  const { token } = useAuth()
   const [inputValue, setInputValue] = useState('')
   const [tabState, setTabState] = useState([
     {
@@ -22,51 +25,82 @@ function TodoList () {
       active: false
     }
   ])
-  const [allItem, setAllItem] = useState([
-    {
-      id: 1,
-      text: '把冰箱發霉的檸檬拿去丟',
-      finished: false
-    },
-    {
-      id: 2,
-      text: '把冰箱發霉的檸檬拿去丟!!!',
-      finished: true
-    }
-  ])
+  const [allItem, setAllItem] = useState([])
+
+  const getTodoList = async () => {
+    const url = 'https://todoo.5xcamp.us/todos'
+    await axios.get(url, {
+      headers: {
+        'Authorization': token
+      }
+    })
+    .then(res => {
+      setAllItem(res.data.todos)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
+  }
 
   const addItem = () => {
-    if (inputValue) {
-      const id = allItem[allItem.length-1].id + 1
-      setAllItem([...allItem, {
-        id: id,
-        text: inputValue,
-        finished: false
-      }])
-      setInputValue('')
+    const url = 'https://todoo.5xcamp.us/todos'
+    const obj = {
+      todo: {
+        content: inputValue
+      }
     }
+    axios.post(url, obj, {
+      headers: {
+        'Authorization': token
+      }
+    })
+    .then(res => {
+      setInputValue('')
+      getTodoList()
+    })
+    .catch(err => {
+      console.log(err)
+    })
   };
 
   const removeItem = (id) => {
-    setAllItem(
-      allItem.filter((item)=>item.id!==id)
-    )
+    const url = `https://todoo.5xcamp.us/todos/${id}`
+    axios.delete(url, {
+      headers: {
+        'Authorization': token
+      }
+    })
+    .then(res => {
+      getTodoList()
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
 
   const removeAllFinished = () => {
-    setAllItem(
-      allItem.filter((item)=>!item.finished)
-    )
+    allItem.forEach((item) => {
+      if (item.completed_at) {
+        removeItem(item.id)
+      }
+    })
   }
 
-  const changeItemState = (e) => {
-    const { name, checked } = e.target
-    setAllItem(
-      allItem.map((item) =>
-        item.id === name ? { ...item, finished: checked } : item
-      )
-    )
-  };
+  const changeItemState = (e, id) => {
+    const url = `https://todoo.5xcamp.us/todos/${id}/toggle`
+    axios.patch(url, '', {
+      headers: {
+        'Authorization': token
+      }
+    })
+    .then(res => {
+      getTodoList()
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
 
   const changeTabState = (e) => {
     setTabState(
@@ -77,6 +111,11 @@ function TodoList () {
     )
   }
 
+  useEffect(() => {
+    getTodoList()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <>
       <div id="todoListPage" className="bg-half">
@@ -86,7 +125,7 @@ function TodoList () {
             <li><Link to="/" className="log-out-icon"><i className="fas fa-sign-out-alt"></i></Link></li>
           </ul>
         </nav>
-        <div className="conatiner todoListPage vhContainer">
+        <div className="container todoListPage vhContainer">
           <div className="todoList_Content">
             <div className="inputBox">
               <InputBox inputValue={inputValue} setInputValue={setInputValue} allItem={allItem} setAllItem={setAllItem} addItem={addItem}/>
@@ -102,7 +141,7 @@ function TodoList () {
               <div className="todoList_items">
                 <TodoItem allItem={allItem} changeItemState={changeItemState} tabState={tabState} removeItem={removeItem}/>
                 <div className="todoList_statistics">
-                  <p> {allItem.filter((item) => item.finished).length} 個已完成項目</p>
+                  <p> {allItem.filter((item) => !item.completed_at).length} 個待完成項目</p>
                   <button onClick={removeAllFinished}>清除已完成項目</button>
                 </div>
               </div>
