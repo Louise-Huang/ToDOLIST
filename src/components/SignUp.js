@@ -8,7 +8,7 @@ const $swal = withReactContent(Swal)
 
 function SignUp () {
   let navigate = useNavigate()
-  const { register, handleSubmit, formState: { errors } } = useForm()
+  const { register, handleSubmit, watch, formState: { errors } } = useForm()
   const [signUpError, setSignUpError] = useState('')
   const submit = data => {
     console.log(data)
@@ -41,7 +41,6 @@ function SignUp () {
       }
     })
   }
-
 
   return (
     <>
@@ -101,12 +100,17 @@ function SignUp () {
                 name="pwd"
                 id="pwd2"
                 placeholder="Enter password again"
-                {...register('password', {
+                {...register('check_password', {
                   required: { value: true, message: 'This field is required!'},
-                  minLength: { value: 6, message: 'Password requires at least six characters.' }
+                  minLength: { value: 6, message: 'Password requires at least six characters.' },
+                  validate: value => {
+                    if (watch('password') !== value) {
+                      return 'Password does not match.'
+                    }
+                  }
                 })}
               />
-              <span>{errors.password?.message}</span>
+              <span>{errors.check_password?.message}</span>
               <span>{signUpError}</span>
               <input className="formControls_btnSubmit" type="submit" value="Sign up" />
               <Link to="/" className="formControls_btnLink">Login</Link>
