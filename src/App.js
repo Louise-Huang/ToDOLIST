@@ -9,11 +9,12 @@ import TodoList from './components/TodoList'
 import NotFound from './components/NotFound'
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem('token'))
+  const [token, setToken] = useState('')
+  const [userName, setUserName] = useState('')
 
   return (
     <div className="App">
-      <AuthContext.Provider value={{token, setToken}}>
+      <AuthContext.Provider value={{token, setToken, userName, setUserName}}>
         <Routes>
           <Route index element={<Login />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
