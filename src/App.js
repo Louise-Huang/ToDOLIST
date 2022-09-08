@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
+import { AuthContext } from './Context'
+import './assets/all.css'
+import Login from './components/Login'
+import SignUp from './components/SignUp'
+import ProtectedRoute from './components/ProtectedRoute'
+import TodoList from './components/TodoList'
+import NotFound from './components/NotFound'
 
 function App() {
+  const [token, setToken] = useState(localStorage.getItem('token'))
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <AuthContext.Provider value={{token, setToken}}>
+        <Routes>
+          <Route index element={<Login />}></Route>
+          <Route path="/signup" element={<SignUp />}></Route>
+          <Route element={<ProtectedRoute/>}>
+            <Route path="/todo" element={<TodoList />}></Route>
+          </Route>
+          <Route path="*" element={<NotFound />}></Route>
+        </Routes>
+      </AuthContext.Provider>
     </div>
   );
 }
