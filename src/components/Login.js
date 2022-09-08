@@ -6,7 +6,7 @@ import axios from "axios"
 
 function Login () {
   let navigate = useNavigate()
-  const { setToken } = useAuth()
+  const { setToken, setUserName } = useAuth()
   const { register, handleSubmit, formState: { errors } } = useForm()
   const [loginError, setLoginError] = useState('')
   const submit = data => {
@@ -24,6 +24,7 @@ function Login () {
     .then(res => {
       console.log('res', res)
       setToken(res.headers.authorization)
+      setUserName(res.data.nickname)
       navigate('/todo')
     })
     .catch(err => {
