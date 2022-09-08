@@ -10,7 +10,7 @@ const $swal = withReactContent(Swal)
 
 function TodoList () {
   let navigate = useNavigate()
-  const { token } = useAuth()
+  const { token, userName } = useAuth()
   const [inputValue, setInputValue] = useState('')
   const [tabState, setTabState] = useState([
     {
@@ -148,6 +148,7 @@ function TodoList () {
         <nav>
           <h1><Link to="/">ONLINE TODO LIST</Link></h1>
           <ul>
+            <li><span>{userName}'s Todo List</span>&ensp;&ensp;&ensp;</li>
             <li><button className="log-out-icon" onClick={logout}><i className="fas fa-sign-out-alt"></i></button></li>
           </ul>
         </nav>
